@@ -32,10 +32,29 @@
     </form>
 </div>
 <div id="msg"></div>
-
+<div id="root"></div>
 <script src="assets/js/agente.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         lista_status()
+
+        var host = 'ws://192.168.15.6:12345/websockets.php';
+        var socket = new WebSocket(host);
+
+        socket.onopen = function(e) {
+            console.log('Conectado no websocket com sucesso.')
+        }
+
+        socket.onmessage = function(e) {
+            document.getElementById('root').innerHTML = e.data;
+        };
+
+        socket.onclose = function(e) {
+            console.log('Conexão com websocket encerrada.')
+        }
+
+        socket.onerror = function(e) {
+            console.log('Houve um erro na conexão com websocket.')
+        }
     });
 </script>
