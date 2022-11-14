@@ -8,6 +8,6 @@ class Proc_test extends CI_Controller
         $command = "php ".FCPATH."index.php tools proc1 $param > /dev/null &";
         exec($command);
 
-        echo json_encode(false);
+        echo json_encode($command);
     }
 }

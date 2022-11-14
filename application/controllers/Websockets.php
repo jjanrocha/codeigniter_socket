@@ -32,6 +32,11 @@ class Websockets extends CI_Controller
                 socket_set_nonblock($newc);
                 echo "Client $newc has connected\n";
                 $clients[] = $newc;
+
+                /** Teste de envio de mensagem ao client side */
+                $content = 'Now: ' . time();
+                $response = chr(129) . chr(strlen($content)) . $content;
+                socket_write($newc, $response);
             }
         }
     }
