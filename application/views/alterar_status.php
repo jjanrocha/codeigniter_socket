@@ -28,11 +28,11 @@
         <div class="col-auto">
             <button class="btn btn-secondary" onclick="alterar_status()">Alterar</button>
         </div>
-
     </form>
 </div>
+
 <div id="msg"></div>
-<div id="root"></div>
+
 <script src="assets/js/agente.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -46,7 +46,8 @@
         }
 
         socket.onmessage = function(e) {
-            document.getElementById('root').innerHTML = e.data;
+            //document.getElementById('root').innerHTML = e.data;
+            console.log(e);
         };
 
         socket.onclose = function(e) {

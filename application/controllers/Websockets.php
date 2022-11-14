@@ -14,6 +14,21 @@ class Websockets extends CI_Controller
 
         while (true) {
             if (($newc = socket_accept($socket)) !== false) {
+
+                //Handshake.
+                $request = socket_read($newc, 5000);
+                preg_match('#Sec-WebSocket-Key: (.*)\r\n#', $request, $matches);
+                $key = base64_encode(pack(
+                    'H*',
+                    sha1($matches[1] . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')
+                ));
+                $headers = "HTTP/1.1 101 Switching Protocols\r\n";
+                $headers .= "Upgrade: websocket\r\n";
+                $headers .= "Connection: Upgrade\r\n";
+                $headers .= "Sec-WebSocket-Version: 13\r\n";
+                $headers .= "Sec-WebSocket-Accept: $key\r\n\r\n";
+                socket_write($newc, $headers, strlen($headers));
+
                 socket_set_nonblock($newc);
                 echo "Client $newc has connected\n";
                 $clients[] = $newc;
